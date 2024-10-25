@@ -1,5 +1,7 @@
 # あっち向いてホイ
 
+begin #rescue
+
 def janken
     puts "じゃんけん..."
     puts "0(グー) 1(チョキ) 2(パー) 3(戦わない)"
@@ -26,22 +28,25 @@ def janken
     puts "相手: #{hands[program_hand]}!"  # プログラムの手
 
     #勝ち！
-    if  (player_hand == 0 && program_hand == 1) || # グー　チョキ　or
-        (player_hand == 1 && program_hand == 2) || # チョキ　パー　or
-        (player_hand == 2 && program_hand == 0)    # パー　グー
+    if  (player_hand == 0 && program_hand == 1) || # グー チョキ or
+        (player_hand == 1 && program_hand == 2) || # チョキ パー or
+        (player_hand == 2 && program_hand == 0)    # パー グー
         puts "勝ち！ あっちむいてホイに進みます"
+        puts "---------------------------------"
         attimuitehoi("win") #上のメソッド呼び出し
     #あいこ！
     elsif
         (player_hand == program_hand)
-        puts "あいこ!"
+        puts "あいこ! じゃんけんに戻ります"
+        puts "---------------------------------"
         janken # あいこの場合は再度じゃんけん
     #負け！
     else
-        (player_hand == 0 && program_hand == 2) || # グー　パー　or
-        (player_hand == 1 && program_hand == 0) || # チョキ　グー　or
-        (player_hand == 2 && program_hand == 1)    # パー　チョキ
+        (player_hand == 0 && program_hand == 2) || # グー パー or
+        (player_hand == 1 && program_hand == 0) || # チョキ グー or
+        (player_hand == 2 && program_hand == 1)    # パー チョキ
         puts "負け! あっち向いてホイに進みます"
+        puts "---------------------------------"
         attimuitehoi("lose") #上のメソッド呼び出し
     end
 end
@@ -69,18 +74,24 @@ def attimuitehoi(result)
   
   # 勝負判定
   if player_direction == program_direction
-    if result == "win" #　attimuitehoi(win)
+    if result == "win" # attimuitehoi(win)
       puts "あなたの勝ちです！"
     elsif result == "lose" # attimuitehoi(lose)
       puts "あなたの負けです。"
     end
   else
-    puts "引き分けです！ 最初に戻ります"
-    return janken #　ジャンケンに戻る
+    puts "引き分けです！ じゃんけんに戻ります"
+    return janken # ジャンケンに戻る
   end
 end
 
 janken #メソッド呼び出し
+
+#interruptエラーが発生した際に以下のエラーメッセージを表示して、エラーを正常に終了させる
+rescue Interrupt
+  puts "\nあっちむいてホイを終了しました。" #\nは段落
+  puts "-------------------------------------------"
+end #begin
 
 
 
